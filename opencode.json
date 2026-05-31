@@ -1,0 +1,449 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/deepseek-v4-flash-free",
+  "small_model": "opencode/deepseek-v4-flash-free",
+  "default_agent": "build",
+  "autoupdate": true,
+  "snapshot": true,
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 10000
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "pnpm exec tsc --noEmit": "allow",
+      "pnpm exec tsc": "allow",
+      "cargo check": "allow",
+      "cargo clippy": "allow",
+      "cargo clippy -- -D warnings": "allow",
+      "pnpm test": "allow",
+      "pnpm install": "allow",
+      "pnpm add *": "allow",
+      "pnpm remove *": "allow",
+      "mkdir *": "allow",
+      "mkdir -p *": "allow",
+      "ls *": "allow",
+      "ls -la *": "allow",
+      "which *": "allow",
+      "echo *": "allow",
+      "node *": "allow",
+      "rustc --version": "allow",
+      "cargo --version": "allow",
+      "pnpm --version": "allow",
+      "node --version": "allow",
+      "uname *": "allow",
+      "sw_vers": "allow",
+      "touch *": "allow",
+      "cp *": "allow",
+      "mv *": "allow",
+      "rm *": "allow",
+      "rm -rf *": "allow",
+      "kill *": "allow",
+      "pgrep *": "allow",
+      "pkill *": "allow",
+      "python3 *": "allow",
+      "git status": "allow",
+      "git diff": "allow",
+      "git log *": "allow",
+      "git add *": "allow",
+      "git commit *": "allow",
+      "git push *": "allow",
+      "git branch *": "allow",
+      "git checkout *": "allow",
+      "git fetch *": "allow",
+      "git pull *": "allow",
+      "*": "ask"
+    },
+    "read": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow"
+  },
+  "formatter": true,
+  "watcher": {
+    "ignore": [
+      "node_modules/**",
+      "dist/**",
+      ".git/**",
+      "target/**",
+      "src-tauri/target/**"
+    ]
+  },
+  "mcp": {
+    "github": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-github"]
+    },
+    "playwright": {
+      "type": "local",
+      "command": ["npx", "-y", "@playwright/mcp"]
+    },
+    "memory": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+      "env": {
+        "MEMORY_FILE_PATH": "/Users/zaryu/Documents/ZMP/Flame-V2/.opencode/memory.jsonl"
+      }
+    },
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "fetch": {
+      "type": "local",
+      "command": ["uvx", "mcp-server-fetch"]
+    },
+    "tavily": {
+      "type": "local",
+      "command": ["npx", "-y", "tavily-mcp"],
+      "env": {
+        "TAVILY_API_KEY": "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"
+      }
+    },
+    "lsp": {
+      "type": "local",
+      "command": ["npx", "-y", "@mizchi/lsmcp", "-p", "tsgo"]
+    },
+    "lighthouse": {
+      "type": "local",
+      "command": ["npx", "-y", "@danielsogl/lighthouse-mcp"]
+    },
+    "cargo-audit": {
+      "type": "local",
+      "command": ["/Users/zaryu/Documents/ZMP/Flame-V2/src-tauri/mcp/cargo-audit/target/release/mcp-cargo-audit"]
+    },
+    "flame-release": {
+      "type": "local",
+      "command": ["/Users/zaryu/Documents/ZMP/Flame-V2/src-tauri/mcp/release/target/release/mcp-flame-release"]
+    }
+  },
+  "agent": {
+    "architect": {
+      "description": "System architect — designs architecture, module boundaries, and technical decisions for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "rust-dev": {
+      "description": "Rust/Tauri backend developer — writes Tauri commands, PTY handling, filesystem ops for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "frontend-dev": {
+      "description": "React/TypeScript frontend developer — builds UI components, state management, layouts for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "ui-designer": {
+      "description": "UI design expert — color systems, typography, layout grids, visual hierarchy, design tokens from mockup for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "design-system-engineer": {
+      "description": "Design system specialist — tokens, component specs, theme system, motion design, naming conventions for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "visual-critic": {
+      "description": "Visual design reviewer — hierarchy analysis, brand consistency, composition evaluation, typography audits for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "motion-designer": {
+      "description": "Motion & animation specialist — CSS animations, GSAP, transitions, panel slide, sphere visualizer for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "shadcn-ui": {
+      "description": "shadcn/ui component specialist — builds and configures shadcn/ui + Radix primitives for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "tailwind-engineer": {
+      "description": "Tailwind v4 configuration specialist — design tokens, theme configuration, responsive design for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "ai-engineer": {
+      "description": "AI integration specialist — Vercel AI SDK, multi-provider (opencode.ai, gemini-cli, openrouter), agent tools for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "terminal-engineer": {
+      "description": "Terminal/xterm.js specialist — PTY integration, xterm.js WebGL renderer, terminal blocks, OSC sequences",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "editor-engineer": {
+      "description": "Code editor specialist — CodeMirror 6 integration, syntax highlighting, language modes, keybindings",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "security-auditor": {
+      "description": "Security reviewer — audits code for vulnerabilities, path traversal, CSP, sandboxing in Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "*": "ask",
+          "cargo audit": "allow",
+          "pnpm audit": "allow"
+        }
+      }
+    },
+    "qa-tester": {
+      "description": "QA engineer — writes tests, runs test suites, verifies functionality for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "docs-writer": {
+      "description": "Technical writer — creates documentation, README, API docs, user guides for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.4,
+      "permission": {
+        "edit": "allow",
+        "bash": "deny"
+      }
+    },
+    "release-manager": {
+      "description": "Release engineer — handles builds, CI/CD, versioning, changelog, packaging for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "git-specialist": {
+      "description": "Git integration specialist — git panel UI, diff viewer, branch management, commit workflow for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "boh-orchestrator": {
+      "description": "BOH Orchestrator — multi-agent coordinator for high-complexity tasks using free OpenCode Zen models",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "boh-coder": {
+      "description": "BOH Coder — fast implementation specialist using free models for Flame ADE V2",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.2,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    },
+    "boh-reviewer": {
+      "description": "BOH Reviewer — code quality guardian, reviews implementations for correctness, security, and quality",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.1,
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "pnpm exec tsc --noEmit": "allow",
+          "cargo check": "allow",
+          "cargo clippy": "allow",
+          "pnpm test": "allow",
+          "*": "ask"
+        }
+      }
+    },
+    "boh-explorer": {
+      "description": "BOH Explorer — fast codebase researcher, finds context, patterns, and related files",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.5,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    },
+    "engon-orchestrator": {
+      "description": "Engon Orchestrator — coordinates project verification, breaks down tasks, merges reports",
+      "mode": "subagent",
+      "model": "opencode/deepseek-v4-flash-free",
+      "temperature": 0.3,
+      "permission": {
+        "edit": "ask",
+        "bash": "ask"
+      }
+    }
+  },
+  "command": {
+    "dev": {
+      "template": "Start the Flame ADE V2 development server.\nRun: pnpm tauri dev\nEnsure all dependencies are installed first.",
+      "description": "Start Tauri dev server",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "build": {
+      "template": "Build Flame ADE V2 for production.\nRun: pnpm tauri build\nCheck for errors and report build status.",
+      "description": "Build production bundle",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "test": {
+      "template": "Run the full test suite for Flame ADE V2.\nRun: pnpm test\nReport all failures with details.",
+      "description": "Run tests",
+      "agent": "qa-tester",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "lint": {
+      "template": "Run all linting and type checks for Flame ADE V2.\nFrontend: pnpm exec tsc --noEmit\nRust: cd src-tauri && cargo clippy\nReport all issues.",
+      "description": "Run linting and type checks",
+      "agent": "qa-tester",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "clippy": {
+      "template": "Run Rust clippy on the Tauri backend.\ncd src-tauri && cargo clippy -- -D warnings\nFix any warnings or errors.",
+      "description": "Run cargo clippy",
+      "agent": "rust-dev",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "release": {
+      "template": "Prepare a new release for Flame ADE V2.\n1. Check current version in package.json and Cargo.toml\n2. Update CHANGELOG.md with recent changes\n3. Bump version numbers\n4. Create git tag\n5. Build for all platforms",
+      "description": "Prepare new release",
+      "agent": "release-manager",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "audit": {
+      "template": "Run security audit on Flame ADE V2.\nRust: cd src-tauri && cargo audit\nNode: pnpm audit\nReview any vulnerabilities and suggest fixes.",
+      "description": "Security audit",
+      "agent": "security-auditor",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "architect": {
+      "template": "Analyze the current architecture of Flame ADE V2 and suggest improvements.\nReview module boundaries, data flow, and performance bottlenecks.\nPropose concrete changes with rationale.",
+      "description": "Architecture review",
+      "agent": "architect",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "next": {
+      "template": "Build the next pending task from the Flame ADE V2 development plan.\n\n1. Read PLAN.md and AGENTS.md to find the next unchecked task\n2. Read ARCHITECTURE.md, FLAME.md, and DESIGN.md for context\n3. Implement the task following existing conventions and design system\n4. After implementation:\n   - Run TypeScript check: pnpm exec tsc --noEmit\n   - Run Rust check: cd src-tauri && cargo check\n   - Fix any errors\n5. Update CHANGELOG.md with what was done\n6. Update AGENTS.md implementation status\n7. Update PLAN.md to mark the task as completed\n8. Report summary of what was accomplished",
+      "description": "Build next pending task from plan",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "phase": {
+      "template": "Build all tasks in the specified phase of Flame ADE V2.\n\n1. Read PLAN.md to find tasks for the requested phase\n2. For each pending task in order:\n   - Implement the task\n   - Run type checks (tsc --noEmit, cargo check)\n   - Fix errors before moving to next task\n3. After all tasks done:\n   - Update CHANGELOG.md\n   - Update AGENTS.md\n   - Update PLAN.md\n4. Report summary of all completed tasks",
+      "description": "Build entire phase (1-5)",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "document": {
+      "template": "Update all Flame ADE V2 documentation with current progress.\n\n1. Read CHANGELOG.md and compare with actual code state\n2. Update CHANGELOG.md with recent changes\n3. Update AGENTS.md project structure and implementation status\n4. Update PLAN.md checkbox status\n5. Report what was updated",
+      "description": "Update all docs with current progress",
+      "agent": "docs-writer",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "engon": {
+      "template": "Jalankan verifikasi proyek Flame ADE V2 menyeluruh.\nGunakan skill engon untuk melakukan pengecekan:\n1. Struktur Rust backend\n2. Struktur frontend React\n3. Kompilasi (cargo check + tsc --noEmit)\n4. Test coverage\n5. Dokumentasi\n6. Dev server readiness",
+      "description": "Run comprehensive project verification",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    },
+    "design": {
+      "template": "Anda adalah design workflow coordinator untuk Flame ADE V2. Available domains:\n@ui-designer — UI design: colors, typography, layout, design tokens dari mockup\n@design-system-engineer — Design systems: tokens, components, theming, motion\n@visual-critic — Visual critique: hierarchy analysis, brand consistency\n@motion-designer — Animations, transitions, CSS/keyframe motion\n\nAsk the user which domain they need help with, then coordinate.",
+      "description": "Design workflow coordinator",
+      "agent": "build",
+      "model": "opencode/deepseek-v4-flash-free"
+    }
+  },
+  "plugin": [
+    "opencode-notify",
+    "@slkiser/opencode-quota",
+    "opencode-snip",
+    "@tarquinen/opencode-dcp"
+  ],
+  "instructions": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "WORKFLOW.md",
+    "PLAN.md",
+    "FLAME.md",
+    "DESIGN.md",
+    ".opencode/instructions/shell-strategy.md"
+  ]
+}

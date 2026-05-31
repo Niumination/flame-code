@@ -1,0 +1,92 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+    tags: ['v*']
+  pull_request:
+    branches: [main, develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint & Type Check
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec tsc --noEmit
+        name: TypeScript check
+      - run: pnpm exec eslint src/
+        name: ESLint
+      - run: cargo clippy -- -D warnings
+        name: Rust clippy
+        working-directory: src-tauri
+
+  test:
+    name: Test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+        name: Vitest
+      - run: cargo test
+        name: Cargo test
+        working-directory: src-tauri
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    needs: [lint, test]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/v'))
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 26
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tauri build
+        name: Tauri build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flame-ade-v2-macos
+          path: src-tauri/target/release/bundle/
+
+  release:
+    name: Release
+    runs-on: macos-latest
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: flame-ade-v2-macos
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            **/*.dmg
+            **/*.tar.gz
+            **/*.zip
+          generate_release_notes: true
