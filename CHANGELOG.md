@@ -1,61 +1,46 @@
 # Changelog
 
-## [2.0.0] — 2026-05-26
+## [0.7.3] — 2026-05-31
 
 ### Added
-- 🔥 Init proyek Flame ADE V2
-- 🏗 Tauri 2 + React 19 + Vite 8 scaffolding
-- 🎨 Tailwind v4 dengan design tokens dari mockup
-- 📁 Struktur folder monorepo (modules, components, hooks, lib, stores)
-- ⚙️ Rust backend dengan Tauri plugins (shell, fs, dialog, store, updater, os, opener)
-- 🤖 OpenCode configuration (23 agents, 5 MCP servers, 13 commands)
-- 📝 Dokumentasi lengkap (AGENTS.md, ARCHITECTURE.md, FLAME.md, WORKFLOW.md, PLAN.md, DESIGN.md, CHANGELOG.md)
-- 🔧 Custom skills untuk workflow Flame ADE V2
-- 🚀 GitHub Actions CI/CD (test, lint, build, release)
+- 🔥 Migrasi penuh dari Terax AI v0.7.3 sebagai foundation
+- ⚙ Rust backend modules: pty, fs, git, shell, secrets, net, workspace, agent, proc
+- 🖥 34+ Tauri commands across all backend modules
+- 📦 18 frontend modules: ai, agents, editor, explorer, git-history, header, markdown, preview, settings, shortcuts, sidebar, source-control, statusbar, tabs, terminal, theme, updater, workspace
+- 🤖 AI System: Vercel AI SDK v6 with 7 providers (Anthropic, OpenAI, Google, Groq, xAI, Cerebras, OpenRouter) + local models (LM Studio, Ollama, MLX)
+- 🧩 35 shadcn/ui primitives + 8 AI elements
+- 🎨 Tailwind v4 with OKLCH color system
+- 🔄 Multi-pane terminal (max 8 panes per tab)
+- ✎ CodeMirror 6 with 9+ languages, vim mode, autocomplete, merge view, 9 themes
+- 📁 File explorer with real FS backend, search, file watcher
+- ⎇ Git integration: status, diff, stage, commit, push, pull, log, history graph
+- 🤖 AI agent system: tool approval flow, code write/read/search tools, sub-agents
+- 💬 AI mini window (floating chat)
+- 📝 AI snippets + todos (persistent storage)
+- 📄 Markdown preview
+- 🌐 Web preview (iframe + address bar)
+- ⚙ Settings window (separate window, 900x700)
+- 🔄 Auto-updater with manual check
+- 📌 Source control panel
+- 🕹 Git history graph (lane-based visual commit graph)
+- 🏗 Workspace environment (WSL/local path authorization)
+- ⌨ Keyboard shortcuts dialog (Cmd+K)
+- 🌓 17 global themes (9 CodeMirror + custom theme engine)
 
-### Phase 1 — UI Shell ✅
-- 🔥 App Shell layout (Header + Body + StatusBar + resizable panels)
-- 🚦 Header: macOS traffic lights, flame logo, workspace tabs, AI pill, settings
-- 📂 Sidebar Rail (9 icon-only buttons: Explorer, Search, Git, History, Preview, Markdown, Extensions, Settings, Account)
-- 📁 File Explorer statis (tree, search bar, file/folder icons, badges)
-- 🏷 Tab Bar (tabs with colored dot indicators: green/cyan/yellow/indigo)
-- 🖥 Terminal Window (block-style output dengan command/output separator)
-- 🤖 Flame AI Panel (3D sphere via react-three-fiber, chat messages, slash commands, input bar)
-- ✅ Approval Dialog (slide-up modal, action/details, approve/deny)
-- 📋 Context Menu (position-aware, keyboard shortcut hints, danger actions)
-- 📊 Status Bar (branch, errors, warnings, tests, AI status, encoding, line endings)
-- ↔️ Resizable panels (Explorer | Main | AI) via react-resizable-panels v4
+### Changed
+- Nama proyek: `flame-ade-v2` → `flame-code`
+- Bundle ID: `app.flame.ade.v2` → `app.flame.code`
+- Lisensi: Proprietary → Apache 2.0
+- Versi: `2.0.0` → `0.7.3`
+- AI System: Flame native module (3 providers) → Vercel AI SDK v6 (7 providers + local models)
+- Backend: Flame commands/engine/models → Terax modules (pty, fs, git, shell, secrets, net)
+- Tema: Flame indigo → Terax default (akan diganti Gas/Lit)
+- Font: Inter + JetBrains Mono + Cascadia Code
+- Sidebar: Text labels → Icon-only rail
 
-### Phase 2 — UI Components ✅
-- 🖥 xterm.js terminal with WebGL renderer, Fit, Search, WebLinks addons
-- ✎ CodeMirror 6 editor with syntax highlighting (rust, ts, tsx, py, html, css, json, md)
-- 🌐 Web Preview panel (iframe with URL bar, sandbox)
-- ⎇ Git panel (branches, staged/changed files, commit input, commit history)
-- ⚙ Settings page (General, Editor, Terminal, AI, About tabs)
-- 🌓 Theme switching (dark/light via CSS variables + data-theme attribute)
-- 🔗 Sidebar routing → Git, History, Settings show respective panels
-- 📄 Tab routing → terminal, editor, git, preview show correct panels
-
-### Phase 3 — Backend Wiring ✅
-- ⚙ Rust commands: read_directory, read_file, write_file, run_command
-- 🖥 xterm.js terminal wired to Tauri shell PTY via @tauri-apps/plugin-shell
-- 📁 Explorer membaca filesystem real via Tauri commands
-- ✎ CodeMirror editor load/save files via Tauri fs commands
-- ⎇ Git integration: status, log, branches, commit via git CLI
-- 📊 Status Bar menampilkan git branch real
-- 🤖 Flame AI provider: OpenRouter API (primary), opencode/gemini CLI (fallback)
-- ⚙ Rust AI module dengan reqwest untuk HTTP API calls
-- 🔑 AI Settings: API key config, model selector, fallback providers
-- 💬 Zustand aiStore untuk conversation state management
-
-### Phase 4 — Polish ✅
-- ⌨ Keyboard shortcuts registry (Zustand store-based) + Command Palette (Cmd+K)
-- ♿ Accessibility: WCAG AA — focus ring (focus-visible), ARIA labels, landmarks (banner/main/footer/ navigation), role attributes (tab, tablist, log, status, toolbar)
-- 🎯 prefers-reduced-motion support (all animations disabled via CSS)
-- 📢 Live regions (aria-live) for AI chat loading state
-- 🔍 ARIA: sidebar buttons, tab close buttons, search input, terminal, status bar items
-
-### Notes
-- UI-first development: semua komponen visual dibangun sebagai static React app sebelum backend
-- Berdasarkan desain dari `mock-up FlameV2.html`
-- V1 sebagai referensi arsitektur, V2 adalah fresh start dengan pendekatan desain baru
+### Removed
+- 🔮 3D sphere visualizer (three.js, react-three-fiber, drei)
+- 🔧 Automation Dashboard
+- 🎯 Flame ADE V2 design identity (indigo theme, rounded UI)
+- 🗑 Tauri plugins: shell, fs, dialog
+- 📚 Dependencies: lucide-react, tanstack/react-query, recharts, headless_chrome

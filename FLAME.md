@@ -1,54 +1,48 @@
 # FLAME.md — Project Memory
 
-Flame ADE V2 loads `FLAME.md` dari workspace root sebagai agent memory. Dokumen ini mencatat identitas proyek, perbedaan dari V1, dan keputusan desain.
+Flame Code loads `FLAME.md` dari workspace root sebagai agent memory. Dokumen ini mencatat identitas proyek, perbedaan dari upstream Terax AI, dan keputusan desain.
 
 ---
 
 ## Project Identity
 
-- **Name**: Flame ADE V2
-- **Bundle ID**: `app.flame.ade.v2`
-- **Inspirasi**: Terax AI dengan perubahan selera
+- **Name**: Flame Code
+- **Tagline**: *Lit. Fast. Yours.*
+- **Bundle ID**: `app.flame.code`
+- **Versi**: `0.7.3`
+- **Inspirasi**: Terax AI v0.7.3 — divergence total (tidak ada sync ke depan)
 - **Tech Stack**: Tauri 2, Rust, React 19, TypeScript, Tailwind v4, xterm.js, CodeMirror 6, Zustand
-- **AI Providers**: opencode.ai, gemini-cli, openrouter
+- **AI Providers**: Vercel AI SDK v6 — 7 providers (Anthropic, OpenAI, Google, Groq, xAI, Cerebras, OpenRouter) + local models (LM Studio, Ollama, MLX)
 - **Platform Utama**: macOS (Intel + Apple Silicon)
 - **Package Manager**: pnpm
 
 ---
 
-## Perbedaan dari Flame ADE V1
+## Perbedaan dari Terax AI
 
-| # | Aspek | V1 | V2 |
-|---|-------|----|----|
-| 1 | **Pendekatan** | Backend-first, porting dari Terax AI | UI-first, desain dari mockup |
-| 2 | **Tema** | Indigo/primary #4338ca | Flame/amber #ff6a00 accent dominan |
+| # | Aspek | Terax AI | Flame Code |
+|---|-------|----------|------------|
+| 1 | **Pendekatan** | Backend-first, iteratif | Fork total, divergence |
+| 2 | **Tema** | Indigo/neutral | Flame/amber #ff6a00 accent |
 | 3 | **Sidebar** | Text labels | Icon-only rail (48px) |
-| 4 | **AI Panel** | Chat standar | 3D sphere visualizer + gradient |
-| 5 | **Terminal** | Standard xterm | Block-based command/output |
-| 6 | **Layout** | Standard panel | Gradient glow header, flame accents |
-| 7 | **Font** | Inter + JetBrains Mono | + Cascadia Code |
-| 8 | **Provider** | 12+ AI providers | 3 utama (opencode.ai, gemini-cli, openrouter) |
-| 9 | **Platform** | Cross-platform | macOS first |
-| 10 | **Arsitektur** | Monorepo fork Terax | Monorepo fresh start |
+| 4 | **Identitas** | Terax brand | Gas/lit aesthetic, sharp edges |
+| 5 | **Font** | Inter + JetBrains Mono | Same + Cascadia Code |
 
 ---
 
 ## Design Decisions
 
-### D1: UI-First Development
-Keputusan untuk membangun semua komponen visual sebagai static React app sebelum backend. Alasan: mockup sudah jelas, UI adalah prioritas utama. Backend Tauri menyusul setelah UI sempurna.
+### D1: Divergence Total
+Flame Code adalah hard fork dari Terax AI v0.7.3. Tidak akan ada sync upstream. Setiap perubahan adalah milik Flame Code.
 
-### D2: Hybrid Components
-shadcn/ui untuk complex primitives (dialog, select, tooltip), custom components untuk yang simpel. Menyeimbangkan speed development dengan kontrol desain.
+### D2: Gas/Lit Aesthetic
+Visual identity: dark background, neon orange (#ff6a00) gradient accents, sharp edges, monospace heavy, industrial/cyberpunk feel. BUKAN rounded/glow style Flame ADE V2, BUKAN indigo/neutral Terax.
 
-### D3: 3 Provider AI
-Hanya opencode.ai, gemini-cli, openrouter — cukup untuk MVP. Provider tambahan bisa ditambah nanti via plugin system.
+### D3: Eksplorasi Fitur Bertahap
+Flame Code tidak memaksakan fitur baru. Stabilisasi dulu, observasi pain points dari penggunaan sehari-hari, baru fitur khas Flame Code.
 
-### D4: Flame Color Identity
-Palette flame (#ff6a00 → #ff9f45 → #ffd080) sebagai identitas visual utama, dikombinasikan dengan indigo (#6c7cff) untuk kontras. Inspirasi dari api/cahaya.
-
-### D5: macOS Tahoe Priority
-Focus pada macOS Tahoe 26.5 (Hackintosh + Intel). Cross-platform setelah stabil di macOS.
+### D4: macOS Tahoe Priority
+Focus pada macOS Tahoe 26.5. Cross-platform setelah stabil di macOS.
 
 ---
 
@@ -63,10 +57,11 @@ Focus pada macOS Tahoe 26.5 (Hackintosh + Intel). Cross-platform setelah stabil 
 
 ```bash
 pnpm install                    # Install dependencies
-pnpm tauri dev                  # Development mode
+pnpm tauri dev                  # Development mode (port 1420)
 pnpm tauri build                # Production build
 pnpm exec tsc --noEmit          # TypeScript type check
 cd src-tauri && cargo check     # Rust compilation check
 cd src-tauri && cargo clippy    # Rust lint
-pnpm test                       # Run tests (vitest)
+pnpm test                       # Run frontend tests (vitest)
+cd src-tauri && cargo test      # Run Rust tests (122 tests)
 ```

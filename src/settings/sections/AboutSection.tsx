@@ -8,7 +8,7 @@ import { arch, platform } from "@tauri-apps/plugin-os";
 import { useEffect, useState } from "react";
 import { SectionHeader } from "../components/SectionHeader";
 
-const REPO_URL = "https://github.com/anomalyco/flame-code";
+const REPO_URL = "https://github.com/niumination/flame-code";
 const WEBSITE = "https://flame-code.app";
 
 const PLATFORM_LABEL: Record<string, string> = {
@@ -69,7 +69,7 @@ export function AboutSection() {
       <SectionHeader title="About" description="" />
 
       <div className="flex items-center gap-4 rounded-xl border border-border/60 bg-card/60 p-5">
-        <img src="/logo.png" alt="" className="size-12" draggable={false} />
+        <img src="/logo.svg" alt="" className="size-12" draggable={false} />
         <div className="flex min-w-0 flex-col">
           <span className="text-[15px] font-semibold tracking-tight">
             {name}
@@ -103,7 +103,7 @@ export function AboutSection() {
             className="inline-flex items-center gap-1.5 rounded-md text-[12px] underline-offset-2 hover:text-foreground hover:underline"
           >
             <HugeiconsIcon icon={GithubIcon} size={12} strokeWidth={1.75} />
-            anomalyco/flame-code
+            niumination/flame-code
           </button>
         </dd>
         <dt className="text-muted-foreground">Website</dt>

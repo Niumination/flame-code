@@ -87,37 +87,38 @@
 }
 
 .dark {
-    --background: oklch(0.148 0.004 228.8);
-    --foreground: oklch(0.987 0.002 197.1);
-    --card: oklch(0.218 0.008 223.9);
-    --card-foreground: oklch(0.987 0.002 197.1);
-    --popover: oklch(0.218 0.008 223.9);
-    --popover-foreground: oklch(0.987 0.002 197.1);
-    --primary: oklch(0.925 0.005 214.3);
-    --primary-foreground: oklch(0.218 0.008 223.9);
-    --secondary: oklch(0.275 0.011 216.9);
-    --secondary-foreground: oklch(0.987 0.002 197.1);
-    --muted: oklch(0.275 0.011 216.9);
-    --muted-foreground: oklch(0.723 0.014 214.4);
-    --accent: oklch(0.275 0.011 216.9);
-    --accent-foreground: oklch(0.987 0.002 197.1);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.56 0.021 213.5);
-    --chart-1: oklch(0.872 0.007 219.6);
-    --chart-2: oklch(0.56 0.021 213.5);
-    --chart-3: oklch(0.45 0.017 213.2);
-    --chart-4: oklch(0.378 0.015 216);
-    --chart-5: oklch(0.275 0.011 216.9);
-    --sidebar: oklch(0.218 0.008 223.9);
-    --sidebar-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-accent: oklch(0.275 0.011 216.9);
-    --sidebar-accent-foreground: oklch(0.987 0.002 197.1);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.56 0.021 213.5);
+    --background: oklch(0.07 0.01 255);
+    --foreground: oklch(0.92 0.01 255);
+    --card: oklch(0.10 0.015 255);
+    --card-foreground: oklch(0.92 0.01 255);
+    --popover: oklch(0.14 0.02 255);
+    --popover-foreground: oklch(0.92 0.01 255);
+    --primary: oklch(0.65 0.22 40);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.22 0.02 255);
+    --secondary-foreground: oklch(0.85 0.01 255);
+    --muted: oklch(0.18 0.02 255);
+    --muted-foreground: oklch(0.60 0.02 255);
+    --accent: oklch(0.20 0.02 255);
+    --accent-foreground: oklch(0.85 0.01 255);
+    --destructive: oklch(0.60 0.22 25);
+    --border: oklch(0.20 0.01 255);
+    --input: oklch(0.22 0.02 255);
+    --ring: oklch(0.55 0.20 40);
+    --chart-1: oklch(0.65 0.22 40);
+    --chart-2: oklch(0.55 0.18 45);
+    --chart-3: oklch(0.45 0.14 50);
+    --chart-4: oklch(0.35 0.10 55);
+    --chart-5: oklch(0.25 0.06 60);
+    --sidebar: oklch(0.08 0.01 255);
+    --sidebar-foreground: oklch(0.85 0.01 255);
+    --sidebar-primary: oklch(0.65 0.22 40);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(0.14 0.02 255);
+    --sidebar-accent-foreground: oklch(0.85 0.01 255);
+    --sidebar-border: oklch(0.18 0.02 255);
+    --sidebar-ring: oklch(0.55 0.20 40);
+    --radius: 0;
 }
 
 @layer base {
@@ -140,25 +141,25 @@
 :root {
   --terminal-background: var(--background);
   --terminal-foreground: var(--foreground);
-  --terminal-cursor: var(--foreground);
-  --terminal-cursor-accent: var(--background);
-  --terminal-selection: var(--accent);
-  --terminal-ansi-black: #18181b;
-  --terminal-ansi-red: #ef4444;
-  --terminal-ansi-green: #22c55e;
-  --terminal-ansi-yellow: #eab308;
-  --terminal-ansi-blue: #3b82f6;
-  --terminal-ansi-magenta: #a855f7;
-  --terminal-ansi-cyan: #06b6d4;
-  --terminal-ansi-white: #e4e4e7;
-  --terminal-ansi-bright-black: #52525b;
-  --terminal-ansi-bright-red: #f87171;
-  --terminal-ansi-bright-green: #4ade80;
-  --terminal-ansi-bright-yellow: #facc15;
-  --terminal-ansi-bright-blue: #60a5fa;
-  --terminal-ansi-bright-magenta: #c084fc;
-  --terminal-ansi-bright-cyan: #22d3ee;
-  --terminal-ansi-bright-white: #fafafa;
+  --terminal-cursor: #ff6a00;
+  --terminal-cursor-accent: #0d0f14;
+  --terminal-selection: rgba(255, 106, 0, 0.25);
+  --terminal-ansi-black: #2a3040;
+  --terminal-ansi-red: #ff4455;
+  --terminal-ansi-green: #44c988;
+  --terminal-ansi-yellow: #ff8c2a;
+  --terminal-ansi-blue: #4499ff;
+  --terminal-ansi-magenta: #c86aff;
+  --terminal-ansi-cyan: #33bbdd;
+  --terminal-ansi-white: #c8ccd4;
+  --terminal-ansi-bright-black: #485068;
+  --terminal-ansi-bright-red: #ff6677;
+  --terminal-ansi-bright-green: #66ddaa;
+  --terminal-ansi-bright-yellow: #ffaa55;
+  --terminal-ansi-bright-blue: #66bbff;
+  --terminal-ansi-bright-magenta: #d894ff;
+  --terminal-ansi-bright-cyan: #55ccdd;
+  --terminal-ansi-bright-white: #e8eaf0;
 }
 
 :root {

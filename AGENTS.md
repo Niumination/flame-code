@@ -1,8 +1,18 @@
-# Flame ADE V2 — Agent Instructions
+# Flame Code — Agent Instructions
 
 ## Bahasa
 
 Semua komunikasi, komentar, dokumentasi, dan instruksi — termasuk file ini — ditulis dalam **Bahasa Indonesia**, kecuali nama teknis, kode, atau konfigurasi yang bersifat universal (TypeScript, Rust, JSON, dll).
+
+## Identity
+
+- **Nama**: Flame Code
+- **Tagline**: *Lit. Fast. Yours.*
+- **Bundle ID**: `app.flame.code`
+- **Versi**: `0.7.3`
+- **Repository**: `github.com/niumination/flame-code`
+- **Kategori**: AI-native terminal emulator + code editor
+- **Platform**: macOS (Intel + Apple Silicon)
 
 ## Commands
 
@@ -11,82 +21,94 @@ Semua komunikasi, komentar, dokumentasi, dan instruksi — termasuk file ini —
 | `pnpm install` | Install dependencies |
 | `pnpm tauri dev` | Vite (port **1420**) + Tauri |
 | `pnpm typecheck` | `tsc --noEmit` |
-| `pnpm build` | `tsc -b && vite build` (project refs emit) |
-| `pnpm test` | `vitest` (frontend only, no Rust tests) |
+| `pnpm build` | `tsc -b && vite build` |
+| `pnpm test` | `vitest` (frontend only, 91 tests) |
 | `pnpm lint` | `eslint .` |
 | `cd src-tauri && cargo check` | Rust compilation |
 | `cd src-tauri && cargo clippy -- -D warnings` | Rust lint |
+| `cd src-tauri && cargo test` | Rust tests (122 tests) |
 
 ## CI (`.github/workflows/ci.yml`)
 
 macOS-only, Node 26, `pnpm install --frozen-lockfile`. Three independent jobs:
 - **lint**: `tsc --noEmit` → `eslint src/` → `cargo clippy`
 - **test**: `pnpm test` (Vitest) → `cargo test`
-- **build** (needs lint+test, push to main/develop/tags only): `pnpm tauri build`
+- **build** (needs lint+test, push only): `pnpm tauri build`
 - **release** (needs build, tags only): upload dmg/tar.gz to GitHub release
 
 ## Gotchas
 
-- **Port 1420**, not 5173. `vite.config.ts` sets `strictPort: true`.
-- **Tailwind v4** via `@tailwindcss/vite` plugin (no PostCSS). Tokens in `src/App.css` via `@theme`.
-- **Window**: 1200×740, min 900×500, `hiddenTitle` + `Overlay` (custom traffic lights).
+- **Port 1420**, not 5173. `strictPort: true`.
+- **Tailwind v4** via `@tailwindcss/vite` plugin (no PostCSS). Tokens in `src/styles/globals.css` via `@theme inline`.
+- **OKLCH color space** throughout (not hex). CSS variables via `oklch()`.
+- **Window**: 1200×740 default, `hiddenTitle` + `Overlay` (macOS traffic lights). Two windows: main + settings (900×700, always_on_top, Overlay).
 - **CSP** allows `localhost:*` and `ws://localhost:*` for dev. Locked in `tauri.conf.json`.
-- **`tsc -b`** (build with project refs) ≠ **`tsc --noEmit`** (typecheck only). Build uses `tsconfig.json` refs → `tsconfig.app.json` + `tsconfig.node.json`.
-- TypeScript ~6.0 with `ignoreDeprecations: "6.0"` in `tsconfig.app.json`.
-- Single package (`pnpm-workspace.yaml` only has `allowBuilds: esbuild: true`).
-- macOS-only bundle target (`dmg`, `app`). Bundle ID: `app.flame.ade.v2`. Version `2.0.0`.
+- **Settings window** at `settings.html` entry point, separate build chunk.
+- **`tsc --noEmit`** (typecheck) ≠ **`tsc -b`** (build with project refs).
+- TypeScript ~6.0 with `ignoreDeprecations: "6.0"` in `tsconfig.json`.
+- **Vite chunk splitting** — 14+ named chunks (ai-anthropic, ai-google, xterm, codemirror, motion, react, radix).
+- macOS-only bundle target (`dmg`, `multipart.zip`). Bundle ID: `app.flame.code`.
 
 ## Architecture
 
 ```
-src/main.tsx → src/App.tsx
+src/main.tsx → src/app/App.tsx
   Header (titleBarStyle: Overlay)
-  SidebarRail + ExplorerPanel | GitPanel | SettingsPage
-  Group (resizable): Sidebar | Main (TabBar + ActiveTabPanel) | AI
-    ActiveTabPanel routes: terminal → XtermTerminal
-                          editor → EditorPane (CodeMirror 6, ErrorBoundary)
-                          git → GitPanel (ErrorBoundary)
-                          preview → PreviewPane (ErrorBoundary)
+  ResizablePanelGroup (sidebar | workspace)
+    sidebar: FileExplorer | SourceControlPanel + SidebarRail
+    workspace: TerminalStack | EditorStack | PreviewStack | MarkdownStack
+               | AiDiffStack | GitDiffStack | GitHistoryStack
   StatusBar
-  UpdateChecker (auto, 5s delay)
-  ApprovalDialog + CommandPalette + ShortcutHandler
+  Toaster + AgentNotificationsBridge + AiComposerProvider
+  AiMiniWindow (AnimatePresence) + SelectionAskAi
+  ShortcutsDialog + NewEditorDialog + UpdaterDialog
 ```
 
-- **14 frontend modules** in `src/modules/` (ai, automation, editor, explorer, git, header, preview, settings, shortcuts, sidebar, statusbar, tabs, terminal, theme). 6 are lazy-loaded: AiPanel, EditorPane, PreviewPane, GitPanel, SettingsPage, AutomationDashboard.
-- **Rust backend** splits into `commands/`, `models/`, `engine/`, plus `ai.rs`, `lib.rs`, `main.rs`. Tauri invoke handlers in `lib.rs` — FS, shell, AI, automation via `headless_chrome`, plus `tauri-plugin-updater`.
-- **Tauri plugins**: shell, fs, dialog, opener, store, os, log, updater.
+- **18 frontend modules** in `src/modules/` (ai, agents, editor, explorer, git-history, header, markdown, preview, settings, shortcuts, sidebar, source-control, statusbar, tabs, terminal, theme, updater, workspace).
+- **Rust backend** modules in `src-tauri/src/modules/` — pty, fs, git, shell, plus agent.rs, secrets.rs, net.rs, workspace.rs, proc.rs.
+- **34+ Tauri commands** across PTY (5), FS (11), Git (17), Shell (8), Workspace (5), Secrets (4), Net (3), Agent (2).
+- **Tauri plugins**: process, updater, window_state, autostart, store, os, notification, log, opener.
 
 ## Conventions
 
-- `@/` path alias for all imports (`@/modules/*`, `@/components/ui/*`, `@/stores/*`, `@/lib/*`, `@/hooks/*`). No relative imports across modules.
+- `@/` path alias for all imports (`@/modules/*`, `@/components/ui/*`, `@/lib/*`, `@/app/*`). No relative imports across modules.
 - `cn()` from `@/lib/utils` for Tailwind class merging (clsx + tailwind-merge).
-- **5 Zustand stores**: `appStore` (persisted), `aiStore`, `automationStore`, `shortcutsStore`, `themeStore` (persisted).
-- **shadcn/ui** primitives in `src/components/ui/`. Custom components in `src/modules/`.
-- **motion** (framer-motion successor) for animations. **react-resizable-panels** for 3-panel layout.
-- Modules in `src/modules/*/` self-contained with own `lib/` hooks, export via `index.ts`.
+- **Zustand stores** per module (no centralized `src/stores/`): aiStore (chatStore, agentsStore, snippetsStore, planStore, todoStore), preferencesStore, shortcutsStore, themeStore, workspaceEnvStore, managedAgentsStore.
+- **shadcn/ui** primitives in `src/components/ui/` (35 files). AI elements in `src/components/ai-elements/` (8 files).
+- **motion** for animations. **react-resizable-panels** for sidebar layout.
+- Modules in `src/modules/*/` self-contained with own `store/`, `lib/`, hooks.
 
-## Testing
+## Tab Types (Tagged Union)
 
-- **3 test files**: `src/lib/utils.test.ts`, `src/stores/appStore.test.ts`, `src/stores/themeStore.test.ts`. 18 tests total, all pass.
-- Vitest config: `vite.config.ts` (`environment: jsdom`, `setupFiles: ./src/test/setup.ts`). localStorage mocked in setup for persist middleware.
-- Only pure logic tested (stores, utilities). React components with Tauri `invoke` are not tested (mock-heavy, not stable).
-- No Rust tests.
+8 variants: `terminal | editor | preview | markdown | ai-diff | git-diff | git-commit-file | git-history`
+
+Hidden layers on switch (not unmount): PTY sessions survive via `invisible pointer-events-none`.
+
+## AI System
+
+- **Vercel AI SDK v6** with 7 providers: Anthropic, OpenAI, Google (Gemini), Groq, xAI, Cerebras, OpenRouter.
+- **Local models**: LM Studio, Ollama, MLX, OpenAI-compatible, custom endpoints.
+- **Agent system**: tool approval flow, code write/read/search tool, sub-agents, live context bridge (terminal CWD + buffer).
+- **Claude TUI hooks**: OSC 777 notify for managed agent spawning.
+- **BYOK** — all API keys stored via OS keychain (keyring crate, apple-native).
 
 ## Code Quality Order (local dev)
 
 1. `pnpm exec tsc --noEmit` (TypeScript typecheck)
 2. `cd src-tauri && cargo check` (Rust compilation)
 3. `cd src-tauri && cargo clippy -- -D warnings` (Rust lint)
-4. `pnpm test` (Vitest)
-5. `pnpm lint` (ESLint) — config ignores `dist` and `src-tauri/target`
+4. `pnpm test` (Vitest, 91 tests)
+5. `cd src-tauri && cargo test` (Rust tests, 122 tests)
+6. `pnpm lint` (ESLint) — config ignores `dist` and `src-tauri/target`
 
-## Phase Status
+## Testing
 
-PLAN.md checkboxes are stale (`🔲`). All 5 phases complete per code + CHANGELOG. Next work: **Automation Dashboard** (not listed in PLAN.md).
+- **7 test files**: keymap, OSC handlers, PreviewPane, geometry, config, shellQuote, security. 91 tests total.
+- Vitest config: `vite.config.ts` (`environment: jsdom`, `setupFiles: ./src/test/setup.ts`).
+- **122 Rust tests** in workspace (auth/path resolution, FS operations, shell, PTY).
+- Only pure logic tested. React components with Tauri `invoke` are not tested.
 
 ## Skill Usage
-
-Load skill secara otomatis saat tugas cocok dengan deskripsi skill — tanpa perlu diminta manual. Skill bersifat global di OpenCode, tidak terbatas proyek ini. Contoh trigger:
 
 | Skill | Trigger |
 |-------|---------|
@@ -94,15 +116,13 @@ Load skill secara otomatis saat tugas cocok dengan deskripsi skill — tanpa per
 | `engon` | Verifikasi proyek menyeluruh |
 | `shadcn-ui` | Membuat/mengedit komponen UI shadcn/ui |
 | `agent-browser` | Browser QA, testing UI, screenshot |
-| `threejs` | 3D sphere visualizer, Three.js/r3f di AI Panel |
 | `apple-hig` | macOS-specific UI (traffic lights, window chrome, menu) |
 | `color-expert` | Palette generation, design token warna |
 | `design-systems` | Design tokens, component specs, theming system |
 | `frontend-design` | Layout, typography, responsive design |
-| `web-design-guidelines` | Product UI best practices (Vercel) |
 
 ## OpenCode Config
 
-- `opencode.json`: 10 MCP servers (github, playwright, memory, fetch, tavily, lsp, lighthouse, cargo-audit, flame-release, sequential-thinking), 22 subagents, 13 commands, 4 plugins (notify, quota, snip, dcp).
-- Auto-loads: `ARCHITECTURE.md`, `WORKFLOW.md`, `PLAN.md`, `FLAME.md`, `DESIGN.md`, `AGENTS.md`, `.opencode/instructions/shell-strategy.md` — do not duplicate their content here.
+- `opencode.json`: 10 MCP servers, 22 subagents, 13 commands, 4 plugins.
+- Auto-loads: `ARCHITECTURE.md`, `WORKFLOW.md`, `PLAN.md`, `FLAME.md`, `DESIGN.md`, `AGENTS.md`, `.opencode/instructions/shell-strategy.md`.
 - Custom Rust MCP servers at `src-tauri/mcp/` (`cargo-audit`, `flame-release`). Requires pre-built binaries.

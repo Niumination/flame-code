@@ -1,4 +1,4 @@
-# Flame ADE V2 — Development Workflow
+# Flame Code — Development Workflow
 
 ## Prerequisites
 
@@ -91,8 +91,7 @@ fix/*         — bug fixes
 6. Push to GitHub
 
 ## UI Development Workflow (UI-First)
-1. **Design**: lihat mock-up FlameV2.html sebagai referensi
+1. **Evaluate**: lihat app yang sedang berjalan, identifikasi pain points
 2. **Implement**: buat komponen React + Tailwind v4
-3. **Review**: bandingkan dengan mockup
-4. **Iterate**: perbaiki sampai presisi pixel
-5. **Wire**: tambahkan backend setelah UI selesai
+3. **Review**: bandingkan dengan kebutuhan use case
+4. **Iterate**: perbaiki berdasarkan feedback

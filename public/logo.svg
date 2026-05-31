@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <rect width="256" height="256" rx="32" fill="#0d0f14"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- Vertical flame pillar -->
+    <path d="M128 56C128 56 176 88 176 128C176 154.5 154.5 176 128 176C101.5 176 80 154.5 80 128C80 88 128 56 128 56Z" fill="#ff6a00" opacity="0.3"/>
+    <!-- Inner flame -->
+    <path d="M128 72C128 72 164 100 164 128C164 147.9 147.9 164 128 164C108.1 164 92 147.9 92 128C92 100 128 72 128 72Z" fill="#ff8c2a" opacity="0.6"/>
+    <!-- Core flame -->
+    <path d="M128 88C128 88 152 108 152 128C152 141.3 141.3 152 128 152C114.7 152 104 141.3 104 128C104 108 128 88 128 88Z" fill="#ffaa55"/>
+    <!-- Sharp accent lines -->
+    <line x1="128" y1="56" x2="128" y2="72" stroke="#ff6a00" stroke-width="3"/>
+    <line x1="128" y1="176" x2="128" y2="196" stroke="#ff6a00" stroke-width="3"/>
+    <!-- Wing accents -->
+    <line x1="80" y1="128" x2="64" y2="128" stroke="#ff6a00" stroke-width="2.5"/>
+    <line x1="176" y1="128" x2="192" y2="128" stroke="#ff6a00" stroke-width="2.5"/>
+    <!-- Diagonal sparks -->
+    <line x1="92" y1="92" x2="74" y2="74" stroke="#ff6a00" stroke-width="2" opacity="0.7"/>
+    <line x1="164" y1="92" x2="182" y2="74" stroke="#ff6a00" stroke-width="2" opacity="0.7"/>
+    <line x1="92" y1="164" x2="74" y2="182" stroke="#ff6a00" stroke-width="2" opacity="0.5"/>
+    <line x1="164" y1="164" x2="182" y2="182" stroke="#ff6a00" stroke-width="2" opacity="0.5"/>
+  </g>
+  <!-- Cursor bar bottom -->
+  <rect x="118" y="196" width="20" height="2" rx="1" fill="#ff6a00" opacity="0.8"/>
+</svg>

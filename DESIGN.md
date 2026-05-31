@@ -1,65 +1,69 @@
-# Flame ADE V2 — Design Tokens
+# Flame Code — Design Tokens
 
-Desain berdasarkan file `mock-up FlameV2.html`. Semua token di-extract dari CSS mockup.
+Desain "Gas/Lit" aesthetic — dark industrial, neon orange, sharp edges, monospace heavy.
 
 ---
 
 ## 1. Color System
 
 ### 1.1 Surface Hierarchy
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--bg-base` | `#0d0f14` | Root background |
-| `--bg-surface` | `#12151c` | Sidebar, header, panels |
-| `--bg-raised` | `#181c26` | Inputs, search bars |
-| `--bg-overlay` | `#1e2333` | Dialogs, dropdowns |
-| `--bg-hover` | `#232840` | Hover states |
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--bg-base` | `oklch(0.07 0.01 255)` | Root background |
+| `--bg-surface` | `oklch(0.10 0.015 255)` | Sidebar, header, panels |
+| `--bg-raised` | `oklch(0.14 0.02 255)` | Inputs, search bars |
+| `--bg-overlay` | `oklch(0.18 0.025 255)` | Dialogs, dropdowns |
+| `--bg-hover` | `oklch(0.21 0.03 265)` | Hover states |
 
-### 1.2 Brand Palette
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--flame-1` | `#ff6a00` | Primary brand, active indicators |
-| `--flame-2` | `#ff9f45` | Secondary brand, hover accents |
-| `--flame-3` | `#ffd080` | Subtle brand, glow effects |
-| `--indigo` | `#6c7cff` | Contrast accent, links |
-| `--indigo-dim` | `#3d47b0` | Muted contrast |
+### 1.2 Brand Palette (Flame/Amber)
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--flame-1` | `oklch(0.65 0.22 40)` | Primary brand, active indicators |
+| `--flame-2` | `oklch(0.73 0.18 50)` | Secondary brand, hover accents |
+| `--flame-3` | `oklch(0.84 0.12 65)` | Subtle brand, glow effects |
+| `--flame-dim` | `oklch(0.50 0.15 40)` | Muted brand, inactive states |
 
-### 1.3 Semantic Colors
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--green` | `#3ddc84` | Success, test pass, git staged |
-| `--red` | `#ff5f5f` | Error, delete actions |
-| `--yellow` | `#f5c842` | Warning, pending |
-| `--cyan` | `#3dcddc` | Info, code syntax |
+### 1.3 Accent Palette (Teal — complementary to flame)
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--teal` | `oklch(0.60 0.18 200)` | Interactive accents, links |
+| `--teal-dim` | `oklch(0.45 0.12 200)` | Muted interactive |
 
-### 1.4 Text Colors
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--text-primary` | `#e8eaf0` | Primary text |
-| `--text-secondary` | `#8890a8` | Secondary text, file tree |
-| `--text-muted` | `#4e5470` | Muted, placeholders |
-| `--text-flame` | `#ff8c30` | AI accent text |
+### 1.4 Semantic Colors
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--green` | `oklch(0.60 0.20 145)` | Success, test pass, git staged |
+| `--red` | `oklch(0.60 0.22 25)` | Error, delete actions |
+| `--yellow` | `oklch(0.75 0.18 90)` | Warning, pending |
+| `--cyan` | `oklch(0.65 0.15 210)` | Info, code syntax |
 
-### 1.5 Borders
-| Token | Hex | Usage |
-|-------|-----|-------|
-| `--border` | `rgba(255,255,255,0.07)` | Default borders |
-| `--border-active` | `rgba(255,165,50,0.45)` | Active/focus borders |
+### 1.5 Text Colors
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--text-primary` | `oklch(0.92 0.01 255)` | Primary text |
+| `--text-secondary` | `oklch(0.65 0.02 255)` | Secondary text, file tree |
+| `--text-muted` | `oklch(0.40 0.02 255)` | Muted, placeholders |
+| `--text-flame` | `oklch(0.72 0.20 40)` | AI accent text |
+
+### 1.6 Borders
+| Token | Nilai | Usage |
+|-------|-------|-------|
+| `--border` | `oklch(0.20 0.01 255)` | Default borders |
+| `--border-active` | `oklch(0.55 0.20 40)` | Active/focus borders |
 
 ---
 
 ## 2. Typography
 
 ### 2.1 Font Stack
-```css
---font-ui:   -apple-system, BlinkMacSystemFont, 'Inter Variable', 'Segoe UI', sans-serif
+```
+--font-ui:   -apple-system, BlinkMacSystemFont, 'Inter Variable', sans-serif
 --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace
 ```
 
-### 2.2 Font Usage dari Mockup
+### 2.2 Font Usage
 | Context | Size | Weight | Family |
 |---------|------|--------|--------|
-| Brand name | 12px | 600 | --font-ui |
 | Tab labels | 11.5px | 400 | --font-ui |
 | File tree | 12px | 400 | --font-ui |
 | Terminal output | 13px | 400 | --font-mono |
@@ -76,16 +80,13 @@ Desain berdasarkan file `mock-up FlameV2.html`. Semua token di-extract dari CSS 
 | Token | Value | Component |
 |-------|-------|-----------|
 | `--sidebar-w` | 48px | Sidebar rail |
-| `--explorer-w` | 220px | File explorer panel |
-| `--ai-w` | 300px | AI panel |
 | `--header-h` | 38px | Top header bar |
 | `--statusbar-h` | 22px | Bottom status bar |
 | `--tab-h` | 34px | Tab bar height |
 
 ### App Shell Dimensions
 - App: 1200 × 740px
-- Border radius: 14px
-- Content inside: flex layout
+- Border radius: minimal (sharp edges)
 
 ---
 
@@ -98,83 +99,28 @@ Desain berdasarkan file `mock-up FlameV2.html`. Semua token di-extract dari CSS 
 | Panel slide | 200ms | ease |
 | Dialog appear | 300ms | ease |
 | Hover | 100ms | ease |
-| Logo pulse | 3s | ease-in-out infinite |
-| Sphere spin | 6s | linear infinite |
-| Sphere pulse | 3s | ease-in-out infinite |
-| Particle float | 3.2-5.5s | ease-in-out infinite |
 | Cursor blink | 1.1s | steps(1) infinite |
 | Streaming dots | 0.8s | ease-in-out infinite alternate |
 | Status pulse | 2s | infinite |
 
 ### 4.2 What Animates
-- **Logo**: gradient + box-shadow pulse
-- **AI Sphere**: conic gradient spin + box-shadow pulse
-- **Particles**: float up with random delays
-- **Status dot**: green pulse
-- **Terminal cursor**: blink
-- **Streaming indicator**: 3 bouncing dots
-- **Dialog**: slide-up + fade in
-- **Context menu**: scale-in
-- **Tab active**: color/border transition
-- **Hover states**: background/border color transition
+- Tab active: color/border transition
+- Hover states: background/border color transition
+- Streaming indicator: bouncing dots
+- Dialog: slide-up + fade
+- Context menu: scale-in
 
 ---
 
-## 5. Component Design dari Mockup
+## 5. Gas/Lit aesthetic
 
-### 5.1 Header
-- Traffic lights: red/yellow/green dots with glow
-- Flame logo: 20px, gradient background, pulse animation
-- Workspace tabs: 28px height, active = bg-base + border-bottom invisible
-- AI pill: green pulse dot + model name
-- Actions: AI Chat button with flame gradient, settings gear
+### Prinsip Desain
+1. **Sharp edges** — minimal border-radius (2px max), industrial feel
+2. **Monospace heavy** — JetBrains Mono for code, Inter Variable for UI
+3. **High contrast** — neon orange (#ff6a00) against near-black backgrounds
+4. **Solid surfaces** — no glassmorphism, opaque panels
+5. **Terminal-first** — typography over iconography
+6. **Dark industrial** — #0d0f14 base, #12151c surfaces, not pure black
 
-### 5.2 Sidebar Rail
-- 48px wide, icon-only buttons
-- Active state: flame-2 color, left gradient indicator bar
-- Badge: 14px circle notification badge (Git: 3)
-- Bottom section: Extensions, Settings, Account
-
-### 5.3 File Explorer
-- Panel header: uppercase "EXPLORER" title + action icons
-- Search bar: raised background, search icon, input field
-- File tree: indent levels, folder arrows, file icons
-- States: active (flame highlight), modified (yellow M badge), new (green U badge)
-- Context menu: on right-click, with keyboard shortcuts
-
-### 5.4 Terminal Window
-- Header: title "Terminal — zsh", Split/New buttons, cwd path
-- Body: block-based output
-  - Prompt: ❯ + directory + git status + command
-  - Output: dim secondary color
-  - Success: green
-  - AI highlight: left border + flame-1 accent
-  - Cursor: blinking flame-2 block
-- Tab bar: tabs with colored dot indicators (green=term, cyan=edit, yellow=git, indigo=prev)
-
-### 5.5 AI Panel
-- Header: flame icon + "Flame AI" title + model selector
-- 3D Visualizer: 
-  - Sphere: conic gradient (flame → indigo → flame), spinning, pulsing glow
-  - Particles: floating dots with random colors
-  - Status: "AI READY" with green pulse dot
-- Messages: user (indigo bg) | AI (flame bg) | streaming (bouncing dots)
-- Slash commands: chips /explain /fix /test /refactor /docs
-- Input: textarea + footer buttons (attach, voice, context, send)
-- Send button: flame → indigo gradient
-
-### 5.6 Approval Dialog
-- Position: fixed bottom center
-- Warning header, file context, code preview
-- Timer bar: gradient (flame → yellow), decreasing
-- Actions: Reject (red outline) | Approve (green outline)
-
-### 5.7 Status Bar
-- Left: branch (cyan), errors (red), warnings (yellow), tests (green)
-- Right: Rust version, encoding, spaces, AI status with pulse
-- Background: flame + indigo gradient overlay
-
-### 5.8 Context Menu
-- Items: New File, New Folder, Rename, Copy Path, Find in Files, Delete
-- Keyboard shortcuts displayed
-- Danger item (Delete) in red
+### Gas/Lit Vibe
+Dark industrial workspace — seperti night mode di shop floor. Bukan "gaming LED" RGB, bukan "apple clean" minimalis. Lebih ke cyberpunk/industrial — tajam, fungsional, no-nonsense.

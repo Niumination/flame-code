@@ -7,7 +7,7 @@ import { IS_LINUX } from "@/lib/platform";
 const LAST_CHECK_KEY = "flame-code:updater:last-check";
 const CHECK_INTERVAL_MS = 30 * 60 * 1000;
 const GITHUB_LATEST_RELEASE =
-  "https://api.github.com/repos/anomalyco/flame-code/releases/latest";
+  "https://api.github.com/repos/niumination/flame-code/releases/latest";
 
 export interface ManualUpdateInfo {
   version: string;
